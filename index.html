@@ -1,0 +1,1013 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Copper Pot — order online</title>
+<meta name="description" content="The Copper Pot: Home-style meals, cooked to order. Delivery in 30 minutes.">
+<meta name="theme-color" content="#1b1714">
+<meta name="format-detection" content="telephone=no">
+<style>
+:root {
+  --paper: #faf7f2;
+  --ink: #1b1714;
+  --muted: #6f665c;
+  --line: #e5ded3;
+  --card: #ffffff;
+  --accent: #b23c17;
+  --accent-ink: #ffffff;
+  --radius: 14px;
+  --pad: 18px;
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 16px;
+  line-height: 1.45;
+  padding-bottom: calc(96px + env(safe-area-inset-bottom));
+  -webkit-font-smoothing: antialiased;
+}
+
+img { max-width: 100%; display: block; }
+
+button, input, textarea { font: inherit; color: inherit; }
+
+button { cursor: pointer; }
+
+/* ---------- hero ---------- */
+
+.hero {
+  padding: calc(var(--pad) + env(safe-area-inset-top)) var(--pad) var(--pad);
+  background: var(--ink);
+  color: #fdfaf5;
+}
+
+.hero-hours {
+  margin: 0 0 10px;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #b9aea1;
+}
+
+.hero h1 {
+  margin: 0;
+  font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  font-size: clamp(28px, 8vw, 40px);
+  line-height: 1.1;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+.hero-tag {
+  margin: 8px 0 0;
+  color: #cfc5b8;
+  font-size: 15px;
+  max-width: 34ch;
+}
+
+.hero-notice {
+  margin: 14px 0 0;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  font-size: 13px;
+  color: #b9aea1;
+}
+
+/* ---------- menu ---------- */
+
+main {
+  padding: var(--pad);
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.cat + .cat { margin-top: 30px; }
+
+.cat h2 {
+  margin: 0 0 4px;
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.item {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.item:last-child { border-bottom: 0; }
+
+.item-thumb {
+  width: 64px;
+  height: 64px;
+  border-radius: 10px;
+  object-fit: cover;
+  flex: 0 0 auto;
+  background: var(--line);
+}
+
+.item-main { flex: 1 1 auto; min-width: 0; }
+
+.item-name {
+  margin: 0;
+  font-weight: 600;
+  font-size: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.badge {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  padding: 2px 7px;
+  border-radius: 99px;
+}
+
+.item-desc {
+  margin: 3px 0 0;
+  font-size: 14px;
+  color: var(--muted);
+  max-width: 46ch;
+}
+
+.item-price {
+  margin: 7px 0 0;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.item.sold-out .item-name,
+.item.sold-out .item-price { color: var(--muted); }
+
+.sold-tag {
+  margin: 6px 0 0;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+/* ---------- stepper ---------- */
+
+.control { flex: 0 0 auto; padding-top: 2px; }
+
+.add {
+  border: 1px solid var(--ink);
+  background: transparent;
+  color: var(--ink);
+  border-radius: 99px;
+  padding: 7px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  min-height: 40px;
+}
+
+.add:active { background: var(--ink); color: #fff; }
+
+.stepper {
+  display: none;
+  align-items: center;
+  gap: 2px;
+  border: 1px solid var(--ink);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.item.has-qty .add { display: none; }
+.item.has-qty .stepper { display: inline-flex; }
+
+.stepper button {
+  width: 38px;
+  height: 38px;
+  border: 0;
+  background: transparent;
+  font-size: 19px;
+  line-height: 1;
+  display: grid;
+  place-items: center;
+}
+
+.stepper button:active { background: var(--line); }
+
+.stepper .qty {
+  min-width: 24px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  font-size: 15px;
+}
+
+/* ---------- cart bar ---------- */
+
+.bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 12px var(--pad) calc(12px + env(safe-area-inset-bottom));
+  background: rgba(250, 247, 242, 0.92);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 20;
+}
+
+.bar[hidden] { display: none; }
+
+.bar-info { flex: 1 1 auto; min-width: 0; }
+
+.bar-count {
+  margin: 0;
+  font-size: 12px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.bar-total {
+  margin: 1px 0 0;
+  font-size: 19px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.btn-primary {
+  border: 0;
+  background: var(--accent);
+  color: var(--accent-ink);
+  border-radius: 99px;
+  padding: 13px 22px;
+  font-weight: 700;
+  font-size: 15px;
+  min-height: 48px;
+  width: 100%;
+}
+
+.btn-primary:disabled { opacity: 0.45; cursor: not-allowed; }
+
+.bar .btn-primary { width: auto; flex: 0 0 auto; }
+
+/* ---------- checkout sheet ---------- */
+
+.sheet-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(27, 23, 20, 0.5);
+  z-index: 30;
+  opacity: 0;
+  transition: opacity 180ms ease;
+}
+
+.sheet-backdrop[hidden] { display: none; }
+.sheet-backdrop.open { opacity: 1; }
+
+.sheet {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 31;
+  background: var(--card);
+  border-radius: 20px 20px 0 0;
+  max-height: 88vh;
+  overflow-y: auto;
+  padding: 10px var(--pad) calc(20px + env(safe-area-inset-bottom));
+  transform: translateY(100%);
+  transition: transform 220ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.sheet[hidden] { display: none; }
+.sheet.open { transform: translateY(0); }
+
+.sheet-grip {
+  width: 40px;
+  height: 4px;
+  border-radius: 99px;
+  background: var(--line);
+  margin: 0 auto 14px;
+}
+
+.sheet h2 {
+  margin: 0 0 16px;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.sheet-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  border: 0;
+  background: var(--paper);
+  width: 34px;
+  height: 34px;
+  border-radius: 99px;
+  font-size: 17px;
+  line-height: 1;
+}
+
+.modes {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.mode {
+  flex: 1 1 0;
+  border: 1px solid var(--line);
+  background: transparent;
+  border-radius: 10px;
+  padding: 11px 8px;
+  font-size: 14px;
+  font-weight: 600;
+  min-height: 44px;
+}
+
+.mode[aria-pressed="true"] {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: #fff;
+}
+
+.lines {
+  list-style: none;
+  margin: 0 0 14px;
+  padding: 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.lines li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 9px 0;
+  font-size: 15px;
+}
+
+.lines .line-name { color: var(--muted); }
+.lines .line-amount { font-variant-numeric: tabular-nums; }
+
+.totals { margin: 0 0 18px; }
+
+.totals div {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 0;
+  font-size: 15px;
+  color: var(--muted);
+}
+
+.totals .grand {
+  color: var(--ink);
+  font-size: 20px;
+  font-weight: 700;
+  border-top: 1px solid var(--line);
+  margin-top: 8px;
+  padding-top: 12px;
+  font-variant-numeric: tabular-nums;
+}
+
+.field { margin-bottom: 14px; }
+
+.field label {
+  display: block;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+.field input,
+.field textarea {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 12px;
+  background: var(--paper);
+  font-size: 16px;
+}
+
+.field textarea { resize: vertical; min-height: 64px; }
+
+.field input:focus,
+.field textarea:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.warn {
+  margin: 0 0 12px;
+  padding: 11px 13px;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  color: var(--accent);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.warn[hidden] { display: none; }
+
+.hint {
+  margin: 10px 0 0;
+  font-size: 12px;
+  color: var(--muted);
+  text-align: center;
+}
+
+/* ---------- footer ---------- */
+
+.site-foot {
+  padding: 26px var(--pad) 40px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--muted);
+  border-top: 1px solid var(--line);
+  margin-top: 20px;
+}
+
+.site-foot p { margin: 4px 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .sheet, .sheet-backdrop { transition: none; }
+}
+
+:root{--accent:#b23c17}
+</style>
+</head>
+<body>
+<header class="hero">
+    <p class="hero-hours">Tue–Sun · 11:00–21:00</p>
+    <h1>The Copper Pot</h1>
+    <p class="hero-tag">Home-style meals, cooked to order. Delivery in 30 minutes.</p>
+    <p class="hero-notice">Pay on delivery — cash, card or transfer.</p>
+  </header>
+
+  <main>
+    <section class="cat">
+      <h2>From the pot</h2>
+      <ul class="items">
+        <li class="item" data-id="chicken-stew" data-name="Chicken stew" data-price="1150" data-sold-out="false">
+          
+          <div class="item-main">
+            <p class="item-name">Chicken stew<span class="badge">Popular</span></p>
+            <p class="item-desc">Slow-cooked with peppers and onions. Comes with rice.</p>
+            <p class="item-price">$11.50</p>
+          </div>
+          <div class="control"><button class="add" type="button" aria-label="Add Chicken stew">Add</button>
+            <div class="stepper">
+              <button class="minus" type="button" aria-label="Remove one Chicken stew">−</button>
+              <span class="qty" aria-live="polite">0</span>
+              <button class="plus" type="button" aria-label="Add one Chicken stew">+</button>
+            </div></div>
+        </li>
+        <li class="item" data-id="bean-pot" data-name="Bean pot" data-price="800" data-sold-out="false">
+          
+          <div class="item-main">
+            <p class="item-name">Bean pot</p>
+            <p class="item-desc">Beans, plantain and a spoon of palm oil.</p>
+            <p class="item-price">$8.00</p>
+          </div>
+          <div class="control"><button class="add" type="button" aria-label="Add Bean pot">Add</button>
+            <div class="stepper">
+              <button class="minus" type="button" aria-label="Remove one Bean pot">−</button>
+              <span class="qty" aria-live="polite">0</span>
+              <button class="plus" type="button" aria-label="Add one Bean pot">+</button>
+            </div></div>
+        </li>
+        <li class="item sold-out" data-id="pepper-soup" data-name="Pepper soup" data-price="975" data-sold-out="true">
+          
+          <div class="item-main">
+            <p class="item-name">Pepper soup</p>
+            <p class="item-desc">Hot, clear broth. Choose chicken or fish.</p>
+            <p class="item-price">$9.75</p>
+          </div>
+          <div class="control"><p class="sold-tag">Sold out</p></div>
+        </li>
+      </ul>
+    </section>
+    <section class="cat">
+      <h2>Sides</h2>
+      <ul class="items">
+        <li class="item" data-id="jollof" data-name="Jollof rice" data-price="450" data-sold-out="false">
+          
+          <div class="item-main">
+            <p class="item-name">Jollof rice</p>
+            <p class="item-desc">Smoky, one-pot rice.</p>
+            <p class="item-price">$4.50</p>
+          </div>
+          <div class="control"><button class="add" type="button" aria-label="Add Jollof rice">Add</button>
+            <div class="stepper">
+              <button class="minus" type="button" aria-label="Remove one Jollof rice">−</button>
+              <span class="qty" aria-live="polite">0</span>
+              <button class="plus" type="button" aria-label="Add one Jollof rice">+</button>
+            </div></div>
+        </li>
+        <li class="item" data-id="fried-plantain" data-name="Fried plantain" data-price="300" data-sold-out="false">
+          
+          <div class="item-main">
+            <p class="item-name">Fried plantain</p>
+            <p class="item-desc">Sweet, caramelised edges.</p>
+            <p class="item-price">$3.00</p>
+          </div>
+          <div class="control"><button class="add" type="button" aria-label="Add Fried plantain">Add</button>
+            <div class="stepper">
+              <button class="minus" type="button" aria-label="Remove one Fried plantain">−</button>
+              <span class="qty" aria-live="polite">0</span>
+              <button class="plus" type="button" aria-label="Add one Fried plantain">+</button>
+            </div></div>
+        </li>
+      </ul>
+    </section>
+    <section class="cat">
+      <h2>Drinks</h2>
+      <ul class="items">
+        <li class="item" data-id="ginger-juice" data-name="Ginger juice" data-price="350" data-sold-out="false">
+          
+          <div class="item-main">
+            <p class="item-name">Ginger juice<span class="badge">New</span></p>
+            <p class="item-desc">Fresh pressed, 500 ml bottle.</p>
+            <p class="item-price">$3.50</p>
+          </div>
+          <div class="control"><button class="add" type="button" aria-label="Add Ginger juice">Add</button>
+            <div class="stepper">
+              <button class="minus" type="button" aria-label="Remove one Ginger juice">−</button>
+              <span class="qty" aria-live="polite">0</span>
+              <button class="plus" type="button" aria-label="Add one Ginger juice">+</button>
+            </div></div>
+        </li>
+        <li class="item" data-id="water" data-name="Bottled water" data-price="100" data-sold-out="false">
+          
+          <div class="item-main">
+            <p class="item-name">Bottled water</p>
+            <p class="item-desc">750 ml.</p>
+            <p class="item-price">$1.00</p>
+          </div>
+          <div class="control"><button class="add" type="button" aria-label="Add Bottled water">Add</button>
+            <div class="stepper">
+              <button class="minus" type="button" aria-label="Remove one Bottled water">−</button>
+              <span class="qty" aria-live="polite">0</span>
+              <button class="plus" type="button" aria-label="Add one Bottled water">+</button>
+            </div></div>
+        </li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="site-foot">
+    <p>14 Mill Lane</p>
+    <p>Tue–Sun · 11:00–21:00</p>
+    <p>Order online · payment direct to the shop</p>
+  </footer>
+
+  <div id="bar" class="bar" hidden>
+    <div class="bar-info">
+      <p class="bar-count" id="bar-count">0 items</p>
+      <p class="bar-total" id="bar-total"></p>
+    </div>
+    <button id="review" class="btn-primary" type="button">Review</button>
+  </div>
+
+  <div id="backdrop" class="sheet-backdrop" hidden></div>
+
+  <div id="sheet" class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title" hidden>
+    <div class="sheet-grip"></div>
+    <button id="close-sheet" class="sheet-close" type="button" aria-label="Close">✕</button>
+    <h2 id="sheet-title">Your order</h2>
+    <div class="modes">
+        <button class="mode" type="button" data-mode="delivery" aria-pressed="false">Delivery</button>
+        <button class="mode" type="button" data-mode="pickup" aria-pressed="false">Pickup</button>
+    </div>
+    <ul class="lines" id="sheet-lines"></ul>
+    <div class="totals" id="totals"></div>
+    <p class="warn" id="warn" hidden></p>
+    <div class="field">
+      <label for="customer-name">Your name</label>
+      <input id="customer-name" name="name" type="text" autocomplete="name" placeholder="So the shop knows who ordered">
+    </div>
+    <div class="field">
+      <label for="customer-note">Note (optional)</label>
+      <textarea id="customer-note" name="note" rows="2" placeholder="Address, delivery time, no pepper…"></textarea>
+    </div>
+    <button id="send" class="btn-primary" type="button" disabled>Send order</button>
+    <p class="hint">Opens WhatsApp with your order ready to send.</p>
+  </div>
+<script type="application/json" id="shop-data">{"name":"The Copper Pot","whatsapp":"+15550001234","currency":{"symbol":"$","decimals":2,"code":"USD"},"modes":["delivery","pickup"],"minOrderMinor":800,"deliveryFeeMinor":250}</script>
+<script>
+/* Cart maths, shared by the page script and the test suite.
+   Plain global-script style on purpose: it is inlined into the built page and
+   must run without a build step or a module loader. */
+(function (root) {
+  "use strict";
+
+  /**
+   * Format integer minor units with grouping and the currency symbol.
+   * Mirrors formatMinor() in src/core.js — test/cart.test.js asserts the two agree.
+   */
+  function money(minor, currency) {
+    var d = typeof currency.decimals === "number" ? currency.decimals : 2;
+    var sign = minor < 0 ? "-" : "";
+    var abs = Math.abs(Math.round(minor));
+    var unit = Math.pow(10, d);
+    var whole = Math.floor(abs / unit);
+    var s = String(whole);
+    var grouped = "";
+    while (s.length > 3) {
+      grouped = "," + s.slice(-3) + grouped;
+      s = s.slice(0, -3);
+    }
+    grouped = s + grouped;
+    if (d === 0) return sign + currency.symbol + grouped;
+    var frac = String(abs % unit);
+    while (frac.length < d) frac = "0" + frac;
+    return sign + currency.symbol + grouped + "." + frac;
+  }
+
+  /**
+   * @param {Array<{priceMinor:number, qty:number}>} lines
+   * @param {object} opts mode "delivery" or "pickup", plus optional deliveryFeeMinor, minOrderMinor
+   */
+  function totals(lines, opts) {
+    var itemsMinor = lines.reduce(function (sum, l) {
+      return sum + l.priceMinor * l.qty;
+    }, 0);
+    var count = lines.reduce(function (sum, l) {
+      return sum + l.qty;
+    }, 0);
+    var deliveryMinor =
+      opts.mode === "delivery" && itemsMinor > 0 ? opts.deliveryFeeMinor || 0 : 0;
+    var minOrderMinor = opts.minOrderMinor || 0;
+    var shortfall = Math.max(0, minOrderMinor - itemsMinor);
+    return {
+      itemsMinor: itemsMinor,
+      deliveryMinor: deliveryMinor,
+      totalMinor: itemsMinor + deliveryMinor,
+      count: count,
+      shortfallMinor: shortfall,
+      meetsMinimum: shortfall === 0,
+    };
+  }
+
+  /**
+   * Plain-text order for WhatsApp. Mirrors buildOrderMessage() in src/core.js.
+   */
+  function orderMessage(input) {
+    var cur = input.currency;
+    var f = function (m) {
+      return money(m, cur);
+    };
+    var out = ["*New order \u2014 " + input.shopName + "*", ""];
+    input.lines.forEach(function (line, i) {
+      out.push(i + 1 + ". " + line.name + " x" + line.qty + " \u2014 " + f(line.priceMinor * line.qty));
+    });
+    out.push("");
+    out.push("Items: " + f(input.totals.itemsMinor));
+    if (input.totals.deliveryMinor > 0) out.push("Delivery: " + f(input.totals.deliveryMinor));
+    out.push("*Total: " + f(input.totals.totalMinor) + "*");
+    out.push("");
+    out.push("Type: " + (input.mode === "delivery" ? "Delivery" : "Pickup"));
+    var name = (input.customerName || "").trim();
+    if (name) out.push("Name: " + name);
+    var note = (input.note || "").trim();
+    if (note) out.push("Note: " + note);
+    return out.join("\n");
+  }
+
+  root.OrderCart = { money: money, totals: totals, orderMessage: orderMessage };
+})(typeof globalThis !== "undefined" ? globalThis : this);
+
+/* Order page behaviour. No dependencies, no network calls except WhatsApp. */
+(function () {
+  "use strict";
+
+  var dataEl = document.getElementById("shop-data");
+  if (!dataEl) return;
+
+  var shop = JSON.parse(dataEl.textContent);
+  var currency = shop.currency || { symbol: "", decimals: 2 };
+
+  /** @type {Record<string, { id: string, name: string, priceMinor: number, qty: number }>} */
+  var cart = {};
+  var items = {};
+  var mode = shop.modes && shop.modes.length ? shop.modes[0] : "delivery";
+  var storageKey = "orderpage:" + String(shop.name || "shop").toLowerCase();
+
+  /* ---------- money ---------- */
+
+  var money = function (minor) {
+    return OrderCart.money(minor, currency);
+  };
+
+  /* ---------- cart state ---------- */
+
+  function loadCart() {
+    try {
+      var raw = localStorage.getItem(storageKey);
+      if (!raw) return;
+      var saved = JSON.parse(raw);
+      Object.keys(saved).forEach(function (id) {
+        if (items[id] && typeof saved[id] === "number" && saved[id] > 0) {
+          cart[id] = Math.min(99, Math.floor(saved[id]));
+        }
+      });
+    } catch (err) {
+      /* storage unavailable or corrupt: start empty */
+    }
+  }
+
+  function saveCart() {
+    try {
+      localStorage.setItem(storageKey, JSON.stringify(cart));
+    } catch (err) {
+      /* private mode: not worth interrupting the order */
+    }
+  }
+
+  function qtyOf(id) {
+    return cart[id] || 0;
+  }
+
+  function setQty(id, qty) {
+    var next = Math.max(0, Math.min(99, qty));
+    if (next === 0) delete cart[id];
+    else cart[id] = next;
+
+    var row = document.querySelector('.item[data-id="' + id + '"]');
+    if (row) {
+      row.classList.toggle("has-qty", next > 0);
+      var out = row.querySelector(".qty");
+      if (out) out.textContent = String(next);
+    }
+    saveCart();
+    refresh();
+  }
+
+  function cartLines() {
+    return Object.keys(cart)
+      .map(function (id) {
+        var item = items[id];
+        return {
+          id: id,
+          name: item.name,
+          qty: cart[id],
+          priceMinor: item.priceMinor,
+          lineMinor: item.priceMinor * cart[id],
+        };
+      })
+      .sort(function (a, b) {
+        return a.name.localeCompare(b.name);
+      });
+  }
+
+  function totals() {
+    var lines = cartLines();
+    var t = OrderCart.totals(lines, {
+      mode: mode,
+      deliveryFeeMinor: shop.deliveryFeeMinor || 0,
+      minOrderMinor: shop.minOrderMinor || 0,
+    });
+    t.lines = lines;
+    return t;
+  }
+
+  /* ---------- rendering ---------- */
+
+  var bar = document.getElementById("bar");
+  var barCount = document.getElementById("bar-count");
+  var barTotal = document.getElementById("bar-total");
+  var sheet = document.getElementById("sheet");
+  var backdrop = document.getElementById("backdrop");
+  var sheetLines = document.getElementById("sheet-lines");
+  var totalsBox = document.getElementById("totals");
+  var warn = document.getElementById("warn");
+  var sendBtn = document.getElementById("send");
+  var nameInput = document.getElementById("customer-name");
+  var noteInput = document.getElementById("customer-note");
+  var modeButtons = document.querySelectorAll(".mode");
+
+  function refresh() {
+    var t = totals();
+
+    if (bar) {
+      bar.hidden = t.count === 0;
+      if (barCount) {
+        barCount.textContent = t.count + (t.count === 1 ? " item" : " items");
+      }
+      if (barTotal) barTotal.textContent = money(t.totalMinor);
+    }
+
+    if (sheetLines) {
+      sheetLines.textContent = "";
+      t.lines.forEach(function (line) {
+        var li = document.createElement("li");
+        var name = document.createElement("span");
+        name.className = "line-name";
+        name.textContent = line.name + " \u00d7 " + line.qty;
+        var amount = document.createElement("span");
+        amount.className = "line-amount";
+        amount.textContent = money(line.lineMinor);
+        li.appendChild(name);
+        li.appendChild(amount);
+        sheetLines.appendChild(li);
+      });
+    }
+
+    if (totalsBox) {
+      totalsBox.textContent = "";
+      appendTotal("Items", money(t.itemsMinor));
+      if (t.deliveryMinor > 0) appendTotal("Delivery", money(t.deliveryMinor));
+      appendTotal("Total", money(t.totalMinor), "grand");
+    }
+
+    if (warn) {
+      var blocked = t.count > 0 && !t.meetsMinimum;
+      warn.hidden = !blocked;
+      if (blocked) {
+        warn.textContent =
+          "Minimum order is " + money(shop.minOrderMinor) + " \u2014 add " + money(t.shortfallMinor) + " more.";
+      }
+    }
+
+    if (sendBtn) {
+      sendBtn.disabled = t.count === 0 || !t.meetsMinimum;
+      sendBtn.textContent =
+        t.count === 0 ? "Add something first" : "Send order \u00b7 " + money(t.totalMinor);
+    }
+  }
+
+  function appendTotal(label, value, className) {
+    var row = document.createElement("div");
+    if (className) row.className = className;
+    var l = document.createElement("span");
+    l.textContent = label;
+    var v = document.createElement("span");
+    v.textContent = value;
+    row.appendChild(l);
+    row.appendChild(v);
+    totalsBox.appendChild(row);
+  }
+
+  /* ---------- sheet ---------- */
+
+  var lastFocus = null;
+
+  function openSheet() {
+    if (!sheet || !backdrop) return;
+    lastFocus = document.activeElement;
+    backdrop.hidden = false;
+    sheet.hidden = false;
+    /* next frame so the transition has a starting point */
+    requestAnimationFrame(function () {
+      backdrop.classList.add("open");
+      sheet.classList.add("open");
+    });
+    refresh();
+    var closeBtn = sheet.querySelector(".sheet-close");
+    if (closeBtn) closeBtn.focus();
+  }
+
+  function closeSheet() {
+    if (!sheet || !backdrop) return;
+    sheet.classList.remove("open");
+    backdrop.classList.remove("open");
+    var done = function () {
+      sheet.hidden = true;
+      backdrop.hidden = true;
+    };
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) done();
+    else window.setTimeout(done, 220);
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+
+  function setMode(next) {
+    mode = next;
+    for (var i = 0; i < modeButtons.length; i++) {
+      var btn = modeButtons[i];
+      btn.setAttribute("aria-pressed", btn.getAttribute("data-mode") === next ? "true" : "false");
+    }
+    refresh();
+  }
+
+  /* ---------- order text ---------- */
+
+  function orderMessage(t) {
+    return OrderCart.orderMessage({
+      shopName: shop.name,
+      lines: t.lines,
+      totals: t,
+      currency: currency,
+      mode: mode,
+      customerName: nameInput ? nameInput.value : "",
+      note: noteInput ? noteInput.value : "",
+    });
+  }
+
+  function send() {
+    var t = totals();
+    if (t.count === 0 || !t.meetsMinimum) return;
+    var digits = String(shop.whatsapp).replace(/\D/g, "");
+    var url = "https://wa.me/" + digits + "?text=" + encodeURIComponent(orderMessage(t));
+    window.location.href = url;
+  }
+
+  /* ---------- wiring ---------- */
+
+  function init() {
+    var rows = document.querySelectorAll(".item");
+    for (var i = 0; i < rows.length; i++) {
+      var row = rows[i];
+      if (row.getAttribute("data-sold-out") === "true") continue;
+      items[row.getAttribute("data-id")] = {
+        name: row.getAttribute("data-name"),
+        priceMinor: parseInt(row.getAttribute("data-price"), 10),
+      };
+    }
+
+    loadCart();
+
+    Object.keys(cart).forEach(function (id) {
+      var row = document.querySelector('.item[data-id="' + id + '"]');
+      if (!row) return;
+      row.classList.add("has-qty");
+      var out = row.querySelector(".qty");
+      if (out) out.textContent = String(cart[id]);
+    });
+
+    document.addEventListener("click", function (event) {
+      var target = event.target;
+      if (!(target instanceof Element)) return;
+
+      var addBtn = target.closest(".add");
+      if (addBtn) {
+        var rowEl = addBtn.closest(".item");
+        setQty(rowEl.getAttribute("data-id"), 1);
+        return;
+      }
+
+      var stepBtn = target.closest(".stepper button");
+      if (stepBtn) {
+        var r = stepBtn.closest(".item");
+        var id = r.getAttribute("data-id");
+        setQty(id, qtyOf(id) + (stepBtn.classList.contains("plus") ? 1 : -1));
+        return;
+      }
+
+      if (target.closest("#review")) {
+        openSheet();
+        return;
+      }
+      if (target.closest("#close-sheet") || target.closest("#backdrop")) {
+        closeSheet();
+        return;
+      }
+      if (target.closest("#send")) {
+        send();
+        return;
+      }
+      var modeBtn = target.closest(".mode");
+      if (modeBtn) setMode(modeBtn.getAttribute("data-mode"));
+    });
+
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape" && sheet && !sheet.hidden) closeSheet();
+    });
+
+    setMode(mode);
+    refresh();
+  }
+
+  init();
+})();
+
+</script>
+</body>
+</html>
